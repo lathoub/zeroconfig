@@ -200,16 +200,13 @@ namespace CosineKitty.ZeroConfigWatcher
                 if (OperationalStatus.Up != adapter.OperationalStatus)
                     continue; // this adapter is off or not connected
 
-                IPv4InterfaceProperties p = adapter.GetIPProperties().GetIPv4Properties();
-                if (null == p)
-                    continue; // IPv4 is not configured on this adapter
-
-                int index;
                 try
                 {
-                    index = p.Index;
+                    IPv4InterfaceProperties p = adapter.GetIPProperties().GetIPv4Properties();
+                    if (null == p)
+                        continue; // IPv4 is not configured on this adapter
                 }
-                catch (Exception)
+                catch (NetworkInformationException)
                 {
                     continue;   // skip adapters without indexes
                 }
